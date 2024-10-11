@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, Image,Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home  from './screens/Home';
-import Restaurant from './screens/Restaurant/Restaurant';
+import Restaurant from './screens/Restaurant/Restaurant-BackeEnd';
 import People from './screens/People/People';
 import AddRestaurant from './screens/Restaurant/Add-Restaurant';
+import People_add from './screens/People/People_add';
 
 function Restaurants(){
   return (
@@ -65,6 +66,8 @@ export default function App({navigation}) {
         />
         <Stack.Screen name = 'Restaurants' component={Restaurants} options={{headerShown:false}}/>
         <Stack.Screen  name="People" component={People} />
+        <Stack.Screen  name="People_add" component={People_add} />
+        <Stack.Screen  name="Add-Restaurant" component={AddRestaurant} />
       </Stack.Navigator>
     </NavigationContainer>
   );
