@@ -1,12 +1,72 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image,Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home  from './screens/Home';
+import Restaurant from './screens/Restaurant/Restaurant';
+import People from './screens/People/People';
+import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 
-export default function App() {
+function Restaurants(){
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TabActions.Navigator>
+      <TabActions.Screen name ='AddRestaurant' component={AddRestaurant}/>
+    </TabActions.Navigator>
+  );
+}
+export default function App({navigation}) {
+  const Stack = createNativeStackNavigator();
+  const HomeImage = () =>{
+    return (
+        <Image style={{width:50, height:50}}
+        source ={require('./assets/home.png')}
+        />
+    );
+  }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator 
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+      >
+        <Stack.Screen 
+          name="Home" 
+          component={Home} 
+          options={({ navigation }) => ({  
+            headerTitle: (props) => <HomeImage {...props} />,
+            headerRight: () => (
+              <Button
+                onPress={() => navigation.navigate('People')}
+                title="People"
+                color="#fff"
+              />
+            ),
+            headerLeft: () => (
+              <Button
+                onPress={() => navigation.navigate('Restaurant')}
+                title="Restaurant"
+                color="#fff"
+              />
+            ),
+          })}
+        />
+        <Stack.Screen 
+          name="Restaurant" 
+          component={Restaurant} 
+          options={{ title: 'Restaurant'
+          }} 
+        />
+        <Stack.Screen name = 'Restaurants' component={Restaurants} options={{headerShown:false}}/>
+        <Stack.Screen  name="People" component={People} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
