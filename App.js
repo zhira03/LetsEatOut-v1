@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image,Button } from 'react-native';
+import { StyleSheet, Text, View, Image,Button,TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home  from './screens/Home';
@@ -43,18 +43,18 @@ export default function App({navigation}) {
           options={({ navigation }) => ({  
             headerTitle: (props) => <HomeImage {...props} />,
             headerRight: () => (
-              <Button
-                onPress={() => navigation.navigate('People')}
-                title="People"
-                color="#fff"
-              />
+              <TouchableOpacity>
+                <Text style={styles.displayIcon} onPress={() => navigation.navigate('People')} >
+                People
+                </Text>
+              </TouchableOpacity>
             ),
             headerLeft: () => (
-              <Button
-                onPress={() => navigation.navigate('Restaurant')}
-                title="Restaurant"
-                color="#fff"
-              />
+              <TouchableOpacity>
+                <Text onPress={() => navigation.navigate('Restaurant')}  style={styles.displayIcon}>
+                Restaurants
+                </Text>
+              </TouchableOpacity>
             ),
           })}
         />
@@ -80,4 +80,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  displayIcon:{
+    color:'#fff',
+    fontSize:18,
+  }
 });
