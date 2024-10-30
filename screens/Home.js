@@ -5,10 +5,14 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is the Home Page</Text>
-      <Button title="Restaurants" onPress={() => navigation.navigate('Restaurant')}
-      />
-      <Button title="People" onPress={() => navigation.navigate('People')}
-      />
+
+      <TouchableOpacity style={styles.IconNames} onPress={() => navigation.navigate('Restaurant')}>
+        <Text> Restaurants </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.IconNames} onPress={() => navigation.navigate('People')}>
+        <Text> People </Text>
+      </TouchableOpacity>
     </View>
     
   );
@@ -22,4 +26,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
   },
+  IconNames:{
+    fontSize: 500,
+    paddingTop: 20,
+    color: ''
+
+
+  }
 });

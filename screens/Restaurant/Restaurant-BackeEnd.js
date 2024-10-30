@@ -10,7 +10,7 @@ const Restaurant = ({navigation}) => {
     const [add_restaurant, setAddRestaurant] = useState('')
     const [restaurantAdd, setRestaurantAdd] = useState([])
 
-    const HandlePeople= () => {
+    const HandleRestuarants= () => {
       Keyboard.dismiss();
       if (add_restaurant){
         setRestaurantAdd([...restaurantAdd, add_restaurant]);

@@ -21,7 +21,7 @@ const AddPeople= ({text}) => {
 const styles = StyleSheet.create({
     itemsDone:{
         width:'95%',
-        backgroundColor:'#fff',
+        backgroundColor:'#f0f0f0',
         padding:15,
         borderRadius:10,
         flexDirection:'row',
