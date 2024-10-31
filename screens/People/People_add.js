@@ -1,16 +1,28 @@
 import { StyleSheet, Text, View,Platform, Button,Keyboard, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
 import React,{useState} from 'react'
 import AddPeople from './addPeople-backEnd'
+import axios from 'axios'
 
 
 const People_add = ({navigation}) => {
+    const fetchPeople = async(name)=>{
+      try{
+        const newUser = { name };
+        const response = await axios.post('http://localhost:27017/api/users/api/users',newUser);
+        console.log(response.data);
+      }catch(error){
+        console.error(error);
+      }
+    };
+
     const [add_people, setAddPeople] = useState('')
     const [peopleAdd, setPeopleAdd] = useState([])
 
     const HandlePeople= () => {
       Keyboard.dismiss();
-      if (add_people){
-        setPeopleAdd([...peopleAdd, add_people]);
+      if (add_people.trim()){
+        setPeopleAdd([...peopleAdd, add_people.trim()]);
+        fetchPeople(add_people.trim())
         setAddPeople(' ');
       }
     }
@@ -38,7 +50,7 @@ const People_add = ({navigation}) => {
             <TextInput style={styles.takeName} placeholder={"Enter a Name"} value={add_people} onChangeText={text =>setAddPeople(text)}/>
             <TouchableOpacity onPress={()=>HandlePeople()}>
               <View style={styles.addWrapper}>
-                <Text style={styles.addText}>
+                <Text style={styles.addText} onPress={()=>fetchPeople()}>
                   Add
                 </Text>
               </View>

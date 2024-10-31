@@ -1,10 +1,10 @@
-FROM node:latest
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY . . 
-
 COPY package.json package-lock.json ./
+
+COPY . . 
 
 RUN npm install
 
