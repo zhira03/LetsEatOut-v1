@@ -64,6 +64,9 @@ const Restaurants = () => {
     <SafeAreaProvider>
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView style={styles.scrollView}>
+        <Text style={styles.Restaurantheading}>
+          Restaurants
+        </Text>
         <FlatList
             data={places}
             keyExtractor={(item, index) => index.toString()}
@@ -85,4 +88,13 @@ const Restaurants = () => {
 
 export default Restaurants
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  Restaurantheading:{
+    fontSize:40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:1,
+    paddingBottom:20,
+    textAlign:'center'
+  }
+})
