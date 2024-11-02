@@ -6,7 +6,7 @@ export default function Home({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.text}>This is the Home Page</Text>
 
-      <TouchableOpacity style={styles.IconNames} onPress={() => navigation.navigate('Restaurant')}>
+      <TouchableOpacity style={styles.IconNames} onPress={() => navigation.navigate('Restaurants')}>
         <Text> Restaurants </Text>
       </TouchableOpacity>
 

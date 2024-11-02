@@ -6,7 +6,7 @@ import { Constants } from "expo";
 
 
 
-const Restaurant = ({navigation}) => {
+const Restaurant_Backend = ({navigation}) => {
     const [add_restaurant, setAddRestaurant] = useState('')
     const [restaurantAdd, setRestaurantAdd] = useState([])
 
@@ -35,7 +35,7 @@ const Restaurant = ({navigation}) => {
   )
 }
 
-export default Restaurant
+export default Restaurant_Backend
 
 
 const styles = StyleSheet.create({})

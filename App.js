@@ -3,18 +3,13 @@ import { StyleSheet, Text, View, Image,Button,TouchableOpacity } from 'react-nat
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home  from './screens/Home';
-import Restaurant from './screens/Restaurant/Restaurant-BackeEnd';
+import Restaurant_Backend from './screens/Restaurant/Restaurant-BackeEnd';
+import Restaurants from './screens/Restaurant/Restaurant';
 import People from './screens/People/People';
 import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 import People_add from './screens/People/People_add';
 
-function Restaurants(){
-  return (
-    <TabActions.Navigator>
-      <TabActions.Screen name ='AddRestaurant' component={AddRestaurant}/>
-    </TabActions.Navigator>
-  );
-}
+
 export default function App({navigation}) {
   const Stack = createNativeStackNavigator();
   const HomeImage = () =>{
@@ -37,10 +32,7 @@ export default function App({navigation}) {
         },
       }}
       >
-        <Stack.Screen 
-          name="Home" 
-          component={Home} 
-          options={({ navigation }) => ({  
+        <Stack.Screen name="Home" component={Home} options={({ navigation }) => ({  
             headerTitle: (props) => <HomeImage {...props} />,
             headerRight: () => (
               <TouchableOpacity>
@@ -51,19 +43,14 @@ export default function App({navigation}) {
             ),
             headerLeft: () => (
               <TouchableOpacity>
-                <Text onPress={() => navigation.navigate('Restaurant')}  style={styles.displayIcon}>
+                <Text onPress={() => navigation.navigate('Restaurants')}  style={styles.displayIcon}>
                 Restaurants
                 </Text>
               </TouchableOpacity>
             ),
           })}
         />
-        <Stack.Screen 
-          name="Restaurant" 
-          component={Restaurant} 
-          options={{ title: 'Restaurant'
-          }} 
-        />
+        <Stack.Screen name="Restaurant_Backend" component={Restaurant_Backend} options={{ title: 'Restaurant'}} />
         <Stack.Screen name = 'Restaurants' component={Restaurants} options={{headerShown:false}}/>
         <Stack.Screen  name="People" component={People} />
         <Stack.Screen  name="People_add" component={People_add} />
