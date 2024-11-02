@@ -1,13 +1,22 @@
-import { StyleSheet, Text, View, ScrollView, Button } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Button, FlatList} from 'react-native'
 import React from 'react'
 
 
 const People = ({navigation}) => {
+  let people_store = [{
+    name:"Mama"
+  }]
   return (
     <ScrollView style={styles.container}>
-        <Text>
-            hello there
-        </Text>
+        <FlatList
+            data={people_store}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+                <View style={{ margin: 10, padding: 10, borderBottomWidth: 1 }}>
+                    <Text style={{ fontWeight: 'bold' }}>{item.name}</Text>
+                </View>
+            )}
+        />
 
         <Button 
           style={styles.moreFriends}

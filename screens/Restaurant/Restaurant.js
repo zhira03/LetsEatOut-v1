@@ -4,7 +4,7 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import React from 'react'
 
 const Restaurants = () => {
-  const places = [
+  let places = [
     {
         "name": "La Fontaine",
         "location": "Meikles Hotel, City Centre",
@@ -63,10 +63,10 @@ const Restaurants = () => {
   return (
     <SafeAreaProvider>
     <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.Restaurantheading}>
+      <Text style={styles.Restaurantheading}>
           Restaurants
         </Text>
+      <ScrollView style={styles.scrollView}>
         <FlatList
             data={places}
             keyExtractor={(item, index) => index.toString()}
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     fontSize:40,
     justifyContent: 'center',
     alignItems: 'center',
-    flex:1,
     paddingBottom:20,
     textAlign:'center'
   }
