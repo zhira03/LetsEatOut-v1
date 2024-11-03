@@ -4,7 +4,9 @@ import React from 'react'
 
 const People = ({navigation}) => {
   let people_store = [{
-    name:"Mama"
+    name:"Mama",
+    nickName:" Larzy",
+    
   }]
   return (
     <ScrollView style={styles.container}>
@@ -14,6 +16,7 @@ const People = ({navigation}) => {
             renderItem={({ item }) => (
                 <View style={{ margin: 10, padding: 10, borderBottomWidth: 1 }}>
                     <Text style={{ fontWeight: 'bold' }}>{item.name}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>Stage Name: {item.nickName}</Text>
                 </View>
             )}
         />
