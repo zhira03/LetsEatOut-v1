@@ -1,25 +1,33 @@
-import { StyleSheet, Text, View, ScrollView, Button, FlatList} from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, ScrollView, Button, FlatList, } from 'react-native'
+import React ,{useState, useEffect} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const People = ({navigation}) => {
-  let people_store = [{
-    name:"Mama",
-    nickName:" Larzy",
-    
-  }]
+  const [peopleList, setPeopleList] = useState([]);
+
+  useEffect(() => {
+    const fetchPeopleList = async () => {
+      try {
+        const storedPeople = await AsyncStorage.getItem('peopleList');
+        if (storedPeople) {
+          setPeopleList(JSON.parse(storedPeople));
+        }
+      } catch (error) {
+        console.error("Failed to fetch people list:", error);
+      }
+    };
+
+    fetchPeopleList();
+  }, []);
   return (
     <ScrollView style={styles.container}>
-        <FlatList
-            data={people_store}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-                <View style={{ margin: 10, padding: 10, borderBottomWidth: 1 }}>
-                    <Text style={{ fontWeight: 'bold' }}>{item.name}</Text>
-                    <Text style={{ fontWeight: 'bold' }}>Stage Name: {item.nickName}</Text>
-                </View>
-            )}
-        />
+        <View>
+      <Text>List of People:</Text>
+      {peopleList.map((person, index) => (
+        <Text key={index}>{person}</Text>
+      ))}
+    </View>
 
         <Button 
           style={styles.moreFriends}
