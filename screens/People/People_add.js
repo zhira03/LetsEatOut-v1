@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View,Platform, Button,Keyboard, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
+import {FlatList,ScrollView, StatusBar} from 'react-native';
 import React,{useState, useEffect} from 'react'
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AddPeople from './addPeople-backEnd'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'

@@ -1,7 +1,11 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
+import { Checkbox } from 'react-native-paper';
+
+
 
 export default function Home({ navigation }) {
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is the Home Page</Text>

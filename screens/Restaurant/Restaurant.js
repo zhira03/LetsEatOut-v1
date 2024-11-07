@@ -72,7 +72,7 @@ const Restaurants = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
                 <View style={{ margin: 10, padding: 10, borderBottomWidth: 1 }}>
-                    <Text style={{ fontWeight: 'bold' }}>{item.name}</Text>
+                    <Text style={{ fontWeight: 'bold', 'textAlign':'center', 'paddingTop':2 }}>{item.name}</Text>
                     <Text>Location: {item.location}</Text>
                     <Text>Best Dish: {item.best_dish}</Text>
                     <Text>Best Drink: {item.best_drink}</Text>

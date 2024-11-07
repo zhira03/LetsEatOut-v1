@@ -22,10 +22,10 @@ const People = ({navigation}) => {
   }, []);
   return (
     <ScrollView style={styles.container}>
-        <View>
+        <View >
       <Text>List of People:</Text>
       {peopleList.map((person, index) => (
-        <Text key={index}>{person}</Text>
+        <Text  style={{ fontWeight: 'bold' ,margin: 10, padding: 10, borderBottomWidth: 1 }} key={index}>{person}</Text>
       ))}
     </View>
 

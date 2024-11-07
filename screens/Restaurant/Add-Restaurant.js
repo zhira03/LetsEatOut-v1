@@ -1,67 +1,97 @@
+import { Picker } from "@react-native-picker/picker";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import Restaurants from "./Restaurant";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AddRestaurants= ({text}) => {
-    return(
-        <View style = {styles.itemsDone}>
-            <View style={styles.itemsLeft}>
+class AddRestaurants extends React.Component{
+    constructor (inProps){
+        super(inProps)
+        this.state = {
+            name :'', bestMeal:'',price:'', rating:'',
+            key:`r_${new Date().getTime()}` 
+        }
+    };
 
-                <TouchableOpacity style={styles.square}>
-                    <Text> X </Text>
-                </TouchableOpacity>
-                <Text style={styles.itemText}>{text}</Text>
+    handleSave = () =>{
+        AsyncStorage.getItem('restaurants', (error, restaurants) => {
+                let updatedRestaurants = [];
 
-            </View>
+                if (restaurants) {
+                    updatedRestaurants = JSON.parse(restaurants);
+                }
 
-            <View style={styles.circular}></View>
-        </View>
-    )
+                // Append the new restaurant data
+                updatedRestaurants.push(this.state);
+
+                // Save back to AsyncStorage and navigate back
+                AsyncStorage.setItem('restaurants', JSON.stringify(updatedRestaurants), () => {
+                    this.props.navigation.navigate("Restaurants");
+                });
+            }
+        );
+    }
+    render(){
+        return (
+            <ScrollView style = {styles.addScreenContainer}>
+                <View style={styles.addScreenInnerContainer}>
+
+                    <View style={styles.addScreenFormContainer}>
+                        <TextInput label={'name'} maxLength={20} placeholder="name"/>
+
+                        <Text style={styles.fieldLabel}>Best Meal</Text>
+                        <View style={styles.pickerContainer}>
+                            <Picker style={styles.picker} prompt="Best Meal" selectedValue={this.state.bestMeal} onValueChange = {(inItemValue) => this.setState({bestMeal: inItemValue})}>
+                                <Picker.Item label="" value={''}/>
+                                <Picker.Item label="Zim" value={'Zim'}/>
+                                <Picker.Item label="South Africa" value={'SA'}/>
+                                <Picker.Item label="Other" value={'Other'}/>
+                            </Picker>
+                        </View>
+
+                        <Text style={styles.fieldLabel}>Price</Text>
+                        <View style={styles.pickerContainer}>
+                            <Picker style={styles.picker} prompt="Price" selectedValue={this.state.price} onValueChange = {(inItemValue) => this.setState({price: inItemValue})}>
+                                <Picker.Item label="" value="" />
+                                <Picker.Item label="1" value="1" />
+                                <Picker.Item label="2" value="2" />
+                                <Picker.Item label="3" value="3" />
+                                <Picker.Item label="4" value="4" />
+                                <Picker.Item label="5" value="5" />
+                            </Picker>
+                        </View>
+                        
+                        <Text style={styles.fieldLabel}>Rating</Text>
+                        <View style={styles.pickerContainer}>
+                            <Picker style={styles.picker} selectedValue={this.state.rating}
+                            prompt="Rating"
+                            onValueChange={ (inItemValue) => this.setState({ rating : 
+                            inItemValue }) }>
+                                <Picker.Item label="" value="" />
+                                <Picker.Item label="1" value="1" />
+                                <Picker.Item label="2" value="2" />
+                                <Picker.Item label="3" value="3" />
+                                <Picker.Item label="4" value="4" />
+                                <Picker.Item label="5" value="5" />
+                            </Picker>
+                        </View>
+
+                        <View style={styles.addScreenButtonsContainer}>
+                            <Button title='Cancel' onPress={() => navigation.navigate('Restaurants')}/>
+                            <Button title="Save" onPress={this.handleSave}/>
+                        </View>
+                    </View>
+                    
+                </View>
+            </ScrollView>
+        )
+    }
 }
+export default AddRestaurants;
 
 const styles = StyleSheet.create({
-    itemsDone:{
-        width:'95%',
-        backgroundColor:'#fff',
-        padding:15,
-        borderRadius:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        marginBottom:20,
-        /*marginTop:5,*/
-
-    },
-
-    itemsLeft:{
-        flexDirection:'row',
-        alignItems:'center',
-        flexWrap:'wrap',
+    addScreenContainer:{
         
-    },
-
-    square:{
-        width:24,
-        height:24,
-        backgroundColor:'#55BCF6',
-        opacity:0.4,
-        borderRadius:5,
-        marginRight:15,
-        alignItems:'center',
-        justifyContent:"center"
-    },
-
-    itemText:{
-        maxWidth:'80%',
-    },
-
-    circular:{
-        width:12,
-        height:12,
-        borderWidth:2,
-        borderRadius:5,
-        borderColor:'#55BCF6'
-    },
-    
-});
-
-export default AddRestaurants;
+    }
+})
