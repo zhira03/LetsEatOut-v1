@@ -17,15 +17,10 @@ class AddRestaurants extends React.Component{
     handleSave = () =>{
         AsyncStorage.getItem('restaurants', (error, restaurants) => {
                 let updatedRestaurants = [];
-
                 if (restaurants) {
                     updatedRestaurants = JSON.parse(restaurants);
                 }
-
-                // Append the new restaurant data
                 updatedRestaurants.push(this.state);
-
-                // Save back to AsyncStorage and navigate back
                 AsyncStorage.setItem('restaurants', JSON.stringify(updatedRestaurants), () => {
                     this.props.navigation.navigate("Restaurants");
                 });
@@ -93,5 +88,9 @@ export default AddRestaurants;
 const styles = StyleSheet.create({
     addScreenContainer:{
         
+    },
+    addScreenButtonsContainer:{
+        flexDirection:'row',
+        justifyContent:'center'
     }
 })

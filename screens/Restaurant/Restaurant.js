@@ -1,99 +1,105 @@
-import { StyleSheet, Text, View } from 'react-native'
-import {FlatList,ScrollView, StatusBar} from 'react-native';
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import React from 'react'
+import { StyleSheet, Text, View, Alert, Button } from 'react-native';
+import { FlatList } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
-const Restaurants = () => {
-  let places = [
-    {
-        "name": "La Fontaine",
-        "location": "Meikles Hotel, City Centre",
-        "best_dish": "Zimbabwean organic steak",
-        "best_drink": "Fine wines"
-    },
-    {
-        "name": "Alo Alo",
-        "location": "Arundel Shopping Centre",
-        "best_dish": "Prawn curry",
-        "best_drink": "House cocktails"
-    },
-    {
-        "name": "Victoria 22",
-        "location": "22 Victoria Road",
-        "best_dish": "Italian pasta",
-        "best_drink": "Signature cocktails"
-    },
-    {
-        "name": "Amanzi",
-        "location": "Northern Suburbs",
-        "best_dish": "Grilled tilapia",
-        "best_drink": "South African wines"
-    },
-    {
-        "name": "The Butchers Kitchen",
-        "location": "Sam Levy’s Village, Borrowdale",
-        "best_dish": "Prime steak cuts",
-        "best_drink": "Craft beers"
-    },
-    {
-        "name": "Shangri-La Chinese Restaurant",
-        "location": "Newlands",
-        "best_dish": "Sushi platter",
-        "best_drink": "Green tea"
-    },
-    {
-        "name": "Millers Café",
-        "location": "Borrowdale Village",
-        "best_dish": "Gourmet burger",
-        "best_drink": "Signature coffee"
-    },
-    {
-        "name": "Kombahari",
-        "location": "Rainbow Towers Hotel",
-        "best_dish": "Afro-Asian dumplings",
-        "best_drink": "Local Zimbabwean beer"
-    },
-    {
-        "name": "The Goose",
-        "location": "Wild Geese Lodge, Teviotdale",
-        "best_dish": "Roasted lamb",
-        "best_drink": "Gin cocktails"
-    }
-]
-  return (
-    <SafeAreaProvider>
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <Text style={styles.Restaurantheading}>
-          Restaurants
-        </Text>
-      <ScrollView style={styles.scrollView}>
-        <FlatList
-            data={places}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-                <View style={{ margin: 10, padding: 10, borderBottomWidth: 1 }}>
-                    <Text style={{ fontWeight: 'bold', 'textAlign':'center', 'paddingTop':2 }}>{item.name}</Text>
-                    <Text>Location: {item.location}</Text>
-                    <Text>Best Dish: {item.best_dish}</Text>
-                    <Text>Best Drink: {item.best_drink}</Text>
+class Restaurants extends React.Component {
+  constructor(inProps) {
+    super(inProps);
+    this.state = { listData: [] };
+  }
+
+  handleDelete = (item) => {
+    Alert.alert(
+      "Are you sure you want to delete?",
+      "",
+      [
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              let inRestaurants = await AsyncStorage.getItem("Restaurants");
+              inRestaurants = inRestaurants ? JSON.parse(inRestaurants) : [];
+
+              const updatedRestaurants = inRestaurants.filter(
+                (restaurant) => restaurant.key !== item.key
+              );
+
+              await AsyncStorage.setItem("Restaurants", JSON.stringify(updatedRestaurants));
+              this.setState({ listData: updatedRestaurants });
+
+              Toast.show({
+                type: 'error',
+                text1: 'Restaurant Removed',
+                text2: 'The restaurant has been successfully removed.',
+                position: 'bottom',
+                visibilityTime: 2000,
+              });
+            } catch (error) {
+              console.error("Error deleting restaurant:", error);
+            }
+          },
+        },
+        { text: "No", style: 'cancel' }
+      ],
+      { cancelable: true }
+    );
+  };
+
+  render() {
+    const { navigation } = this.props;
+    return (
+      <SafeAreaProvider>
+        <SafeAreaView>
+          <View>
+            <Button
+              title='Add Restaurant'
+              onPress={() => navigation.navigate('Add-Restaurant')}
+              style={{ margin: 10 }}
+            >
+              Add Restaurant
+            </Button>
+            <FlatList
+              style={styles.restaurantList}
+              data={this.state.listData}
+              keyExtractor={(item) => item.key}
+              renderItem={({ item }) => (
+                <View style={styles.restaurantContainer}>
+                  <Text style={styles.restaurantName}>{item.name}</Text>
+                  <Button
+                    title='Delete'
+                    onPress={() => this.handleDelete(item)} // Pass item to handleDelete
+                  >
+                    Delete
+                  </Button>
                 </View>
-            )}
-        />
-      </ScrollView>
-    </SafeAreaView>
-  </SafeAreaProvider>
-
-  )
+              )}
+            />
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
+  }
 }
 
-export default Restaurants
+export default Restaurants;
 
 const styles = StyleSheet.create({
-  Restaurantheading:{
-    fontSize:40,
-    justifyContent: 'center',
+  restaurantList: {
+    marginTop: 20,
+  },
+  restaurantContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom:20,
-    textAlign:'center'
-  }
-})
+  },
+  restaurantName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
