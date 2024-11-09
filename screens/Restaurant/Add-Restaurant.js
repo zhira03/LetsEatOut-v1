@@ -1,96 +1,163 @@
 import { Picker } from "@react-native-picker/picker";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-import Restaurants from "./Restaurant";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-class AddRestaurants extends React.Component{
-    constructor (inProps){
-        super(inProps)
+class AddRestaurants extends React.Component {
+    constructor(inProps) {
+        super(inProps);
         this.state = {
-            name :'', bestMeal:'',price:'', rating:'',
-            key:`r_${new Date().getTime()}` 
-        }
+            name: '',
+            bestMeal: '',
+            price: '',
+            rating: '',
+            key: `r_${new Date().getTime()}`
+        };
+    }
+
+    handleSave = () => {
+        AsyncStorage.getItem('restaurants', (error, restaurants) => {
+            let updatedRestaurants = [];
+            if (restaurants) {
+                updatedRestaurants = JSON.parse(restaurants);
+            }
+            updatedRestaurants.push(this.state);
+            AsyncStorage.setItem('restaurants', JSON.stringify(updatedRestaurants), () => {
+                this.props.navigation.navigate("Restaurants");
+            });
+        });
     };
 
-    handleSave = () =>{
-        AsyncStorage.getItem('restaurants', (error, restaurants) => {
-                let updatedRestaurants = [];
-                if (restaurants) {
-                    updatedRestaurants = JSON.parse(restaurants);
-                }
-                updatedRestaurants.push(this.state);
-                AsyncStorage.setItem('restaurants', JSON.stringify(updatedRestaurants), () => {
-                    this.props.navigation.navigate("Restaurants");
-                });
-            }
-        );
-    }
-    render(){
+    render() {
         return (
-            <ScrollView style = {styles.addScreenContainer}>
-                <View style={styles.addScreenInnerContainer}>
+            <View style={styles.container}>
+                <ScrollView style={styles.addScreenContainer}>
+                    <View style={styles.addScreenInnerContainer}>
 
-                    <View style={styles.addScreenFormContainer}>
-                        <TextInput label={'name'} maxLength={20} placeholder="name"/>
+                        <View style={styles.addScreenFormContainer}>
+                            <TextInput
+                                label="Name"
+                                value={this.state.name}
+                                maxLength={20}
+                                placeholder="Enter restaurant name"
+                                onChangeText={(text) => this.setState({ name: text })}
+                                style={styles.textInput}
+                            />
 
-                        <Text style={styles.fieldLabel}>Best Meal</Text>
-                        <View style={styles.pickerContainer}>
-                            <Picker style={styles.picker} prompt="Best Meal" selectedValue={this.state.bestMeal} onValueChange = {(inItemValue) => this.setState({bestMeal: inItemValue})}>
-                                <Picker.Item label="" value={''}/>
-                                <Picker.Item label="Zim" value={'Zim'}/>
-                                <Picker.Item label="South Africa" value={'SA'}/>
-                                <Picker.Item label="Other" value={'Other'}/>
-                            </Picker>
-                        </View>
+                            <View style={styles.largePickerDiv}>
+                                <Text style={styles.fieldLabel}>Best Meal</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        prompt="Best Meal"
+                                        selectedValue={this.state.bestMeal}
+                                        onValueChange={(inItemValue) => this.setState({ bestMeal: inItemValue })}
+                                    >
+                                        <Picker.Item label="" value="" />
+                                        <Picker.Item label="Zim" value="Zim" />
+                                        <Picker.Item label="South Africa" value="SA" />
+                                        <Picker.Item label="Other" value="Other" />
+                                    </Picker>
+                                </View>
 
-                        <Text style={styles.fieldLabel}>Price</Text>
-                        <View style={styles.pickerContainer}>
-                            <Picker style={styles.picker} prompt="Price" selectedValue={this.state.price} onValueChange = {(inItemValue) => this.setState({price: inItemValue})}>
-                                <Picker.Item label="" value="" />
-                                <Picker.Item label="1" value="1" />
-                                <Picker.Item label="2" value="2" />
-                                <Picker.Item label="3" value="3" />
-                                <Picker.Item label="4" value="4" />
-                                <Picker.Item label="5" value="5" />
-                            </Picker>
-                        </View>
-                        
-                        <Text style={styles.fieldLabel}>Rating</Text>
-                        <View style={styles.pickerContainer}>
-                            <Picker style={styles.picker} selectedValue={this.state.rating}
-                            prompt="Rating"
-                            onValueChange={ (inItemValue) => this.setState({ rating : 
-                            inItemValue }) }>
-                                <Picker.Item label="" value="" />
-                                <Picker.Item label="1" value="1" />
-                                <Picker.Item label="2" value="2" />
-                                <Picker.Item label="3" value="3" />
-                                <Picker.Item label="4" value="4" />
-                                <Picker.Item label="5" value="5" />
-                            </Picker>
-                        </View>
-
-                        <View style={styles.addScreenButtonsContainer}>
-                            <Button title='Cancel' onPress={() => navigation.navigate('Restaurants')}/>
-                            <Button title="Save" onPress={this.handleSave}/>
+                                <Text style={styles.fieldLabel}>Price</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        prompt="Price"
+                                        selectedValue={this.state.price}
+                                        onValueChange={(inItemValue) => this.setState({ price: inItemValue })}
+                                    >
+                                        <Picker.Item label="" value="" />
+                                        <Picker.Item label="1" value="1" />
+                                        <Picker.Item label="2" value="2" />
+                                        <Picker.Item label="3" value="3" />
+                                        <Picker.Item label="4" value="4" />
+                                        <Picker.Item label="5" value="5" />
+                                    </Picker>
+                                </View>
+                                
+                                <Text style={styles.fieldLabel}>Rating</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        selectedValue={this.state.rating}
+                                        prompt="Rating"
+                                        onValueChange={(inItemValue) => this.setState({ rating: inItemValue })}
+                                    >
+                                        <Picker.Item label="" value="" />
+                                        <Picker.Item label="1" value="1" />
+                                        <Picker.Item label="2" value="2" />
+                                        <Picker.Item label="3" value="3" />
+                                        <Picker.Item label="4" value="4" />
+                                        <Picker.Item label="5" value="5" />
+                                    </Picker>
+                                </View>
+                            </View>
                         </View>
                     </View>
-                    
+                </ScrollView>
+
+                <View style={styles.addScreenButtonsContainer}>
+                    <Button mode="outlined" onPress={() => this.props.navigation.navigate('Restaurants')} style={styles.button}>
+                        Cancel
+                    </Button>
+                    <Button mode="contained" onPress={this.handleSave} style={styles.button}>
+                        Save
+                    </Button>
                 </View>
-            </ScrollView>
-        )
+            </View>
+        );
     }
 }
+
 export default AddRestaurants;
 
 const styles = StyleSheet.create({
-    addScreenContainer:{
-        
+    container: {
+        flex: 1,
+        backgroundColor: '#f5f5f5',
     },
-    addScreenButtonsContainer:{
-        flexDirection:'row',
-        justifyContent:'center'
-    }
-})
+    addScreenContainer: {
+        flex: 1,
+        padding: 16,
+    },
+    addScreenInnerContainer: {
+        flex: 1,
+    },
+    addScreenFormContainer: {
+        marginBottom: 20,
+    },
+    fieldLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginVertical: 8,
+    },
+    pickerContainer: {
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: '#ddd',
+        marginBottom: 16,
+    },
+    picker: {
+        width: '100%',
+        height: 40,
+    },
+    addScreenButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        padding: 16,
+        backgroundColor: '#f5f5f5',
+    },
+    textInput: {
+        marginBottom: 16,
+    },
+    button: {
+        flex: 1,
+        marginHorizontal: 8,
+    },
+});

@@ -11,6 +11,20 @@ class Restaurants extends React.Component {
     this.state = { listData: [] };
   }
 
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = async () => {
+    try {
+      const restaurants = await AsyncStorage.getItem("restaurants");
+      const listData = restaurants ? JSON.parse(restaurants) : [];
+      this.setState({ listData });
+    } catch (error) {
+      console.error("Error loading restaurants:", error);
+    }
+  };
+
   handleDelete = (item) => {
     Alert.alert(
       "Are you sure you want to delete?",
@@ -20,14 +34,14 @@ class Restaurants extends React.Component {
           text: "Yes",
           onPress: async () => {
             try {
-              let inRestaurants = await AsyncStorage.getItem("Restaurants");
+              let inRestaurants = await AsyncStorage.getItem("restaurants");
               inRestaurants = inRestaurants ? JSON.parse(inRestaurants) : [];
 
               const updatedRestaurants = inRestaurants.filter(
                 (restaurant) => restaurant.key !== item.key
               );
 
-              await AsyncStorage.setItem("Restaurants", JSON.stringify(updatedRestaurants));
+              await AsyncStorage.setItem("restaurants", JSON.stringify(updatedRestaurants));
               this.setState({ listData: updatedRestaurants });
 
               Toast.show({
