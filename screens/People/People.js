@@ -21,6 +21,7 @@ const People = ({navigation}) => {
     fetchPeopleList();
   }, []);
   return (
+    
     <ScrollView style={styles.container}>
         <View >
       <Text>List of People:</Text>

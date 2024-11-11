@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Alert, Button } from 'react-native';
-import { FlatList } from 'react-native';
+import { FlatList,TouchableOpacity } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,6 +24,8 @@ class Restaurants extends React.Component {
       console.error("Error loading restaurants:", error);
     }
   };
+
+  
 
   handleDelete = (item) => {
     Alert.alert(
@@ -68,10 +70,13 @@ class Restaurants extends React.Component {
       <SafeAreaProvider>
         <SafeAreaView>
           <View>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
             <Button
               title='Add Restaurant'
               onPress={() => navigation.navigate('Add-Restaurant')}
-              style={{ margin: 10 }}
+              style={styles.addRestauarant}
             >
               Add Restaurant
             </Button>
@@ -81,7 +86,7 @@ class Restaurants extends React.Component {
               keyExtractor={(item) => item.key}
               renderItem={({ item }) => (
                 <View style={styles.restaurantContainer}>
-                  <Text style={styles.restaurantName}>{item.name}</Text>
+                  <Text style={styles.restaurantName} onPress={() => this.props.navigation.navigate('RestaurantDetails', item)}>{item.name}</Text>
                   <Button
                     title='Delete'
                     onPress={() => this.handleDelete(item)} // Pass item to handleDelete
@@ -116,4 +121,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  addRestauarant:{
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: 16,
+    backgroundColor: '#f5f5f5',
+  }
 });

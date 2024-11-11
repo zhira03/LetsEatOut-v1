@@ -8,6 +8,7 @@ import Restaurants from './screens/Restaurant/Restaurant';
 import People from './screens/People/People';
 import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 import People_add from './screens/People/People_add';
+import RestaurantDetails from './screens/Restaurant/RestaurantDetails';
 
 
 export default function App({navigation}) {
@@ -55,6 +56,7 @@ export default function App({navigation}) {
         <Stack.Screen  name="People" component={People} />
         <Stack.Screen  name="People_add" component={People_add} />
         <Stack.Screen  name="Add-Restaurant" component={AddRestaurant} />
+        <Stack.Screen  name="RestaurantDetails" component={RestaurantDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
