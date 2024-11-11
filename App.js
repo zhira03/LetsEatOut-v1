@@ -3,12 +3,12 @@ import { StyleSheet, Text, View, Image,Button,TouchableOpacity } from 'react-nat
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home  from './screens/Home';
-import Restaurant_Backend from './screens/Restaurant/Restaurant-BackeEnd';
 import Restaurants from './screens/Restaurant/Restaurant';
 import People from './screens/People/People';
 import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 import People_add from './screens/People/People_add';
 import RestaurantDetails from './screens/Restaurant/RestaurantDetails';
+import PeopleDetails from './screens/People/PeopleDetails';
 
 
 export default function App({navigation}) {
@@ -51,12 +51,12 @@ export default function App({navigation}) {
             ),
           })}
         />
-        <Stack.Screen name="Restaurant_Backend" component={Restaurant_Backend} options={{ title: 'Restaurant'}} />
         <Stack.Screen name = 'Restaurants' component={Restaurants} options={{headerShown:false}}/>
         <Stack.Screen  name="People" component={People} />
         <Stack.Screen  name="People_add" component={People_add} />
         <Stack.Screen  name="Add-Restaurant" component={AddRestaurant} />
         <Stack.Screen  name="RestaurantDetails" component={RestaurantDetails} />
+        <Stack.Screen  name="PeopleDetails" component={PeopleDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

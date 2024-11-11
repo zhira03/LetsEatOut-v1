@@ -1,154 +1,163 @@
-import { StyleSheet, Text, View,Platform, Button,Keyboard, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
-import {FlatList,ScrollView, StatusBar} from 'react-native';
-import React,{useState, useEffect} from 'react'
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import AddPeople from './addPeople-backEnd'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
+import { Picker } from "@react-native-picker/picker";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+class People_add extends React.Component {
+    constructor(inProps) {
+        super(inProps);
+        this.state = {
+            name: '',
+            favMeal: '',
+            nickName: '',
+            rating: '',
+            key: `r_${new Date().getTime()}`
+        };
+    }
 
-const People_add = ({ navigation }) => {
-  const [add_people, setAddPeople] = useState('');
-  const [peopleAdd, setPeopleAdd] = useState([]);
-
-  // Fetch stored people on component mount
-  useEffect(() => {
-    const loadPeople = async () => {
-      try {
-        const storedPeople = await AsyncStorage.getItem('peopleList');
-        if (storedPeople) {
-          setPeopleAdd(JSON.parse(storedPeople));
-        }
-      } catch (error) {
-        console.error("Failed to load people list:", error);
-      }
+    handleSave = () => {
+        AsyncStorage.getItem('people', (error, people) => {
+            let updatedPeople = [];
+            if (people) {
+                updatedPeople = JSON.parse(people);
+            }
+            updatedPeople.push(this.state);
+            AsyncStorage.setItem('people', JSON.stringify(updatedPeople), () => {
+                this.props.navigation.navigate("People");
+            });
+        });
     };
 
-    loadPeople();
-  }, []);
+    render() {
+        return (
+            <View style={styles.container}>
+                <ScrollView style={styles.addScreenContainer}>
+                    <View style={styles.addScreenInnerContainer}>
 
-  const fetchPeople = async (name) => {
-    try {
-      const newUser = { name };
-      const response = await axios.post('http://localhost:27017/api/users', newUser);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+                        <View style={styles.addScreenFormContainer}>
+                            <TextInput
+                                label="Name"
+                                value={this.state.name}
+                                maxLength={20}
+                                placeholder="Enter Person name"
+                                onChangeText={(text) => this.setState({ name: text })}
+                                style={styles.textInput}
+                            />
+
+                            <View style={styles.largePickerDiv}>
+                                <Text style={styles.fieldLabel}>Best Meal</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        prompt="Fav Meal"
+                                        selectedValue={this.state.favMeal}
+                                        onValueChange={(inItemValue) => this.setState({ favMeal: inItemValue })}
+                                    >
+                                        <Picker.Item label="" value="" />
+                                        <Picker.Item label="Zim" value="Zim" />
+                                        <Picker.Item label="South Africa" value="SA" />
+                                        <Picker.Item label="Other" value="Other" />
+                                    </Picker>
+                                </View>
+
+                                <Text style={styles.fieldLabel}>Price</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        prompt="Nick-Name"
+                                        selectedValue={this.state.nickName}
+                                        onValueChange={(inItemValue) => this.setState({ nickName: inItemValue })}
+                                    >   
+                                        <Picker.Item label="" value="" />                                     
+                                        <Picker.Item label="Ass" value="1" />
+                                        <Picker.Item label="Butt" value="2" />
+                                        <Picker.Item label="Ugly" value="3" />
+                                        <Picker.Item label="CashLips" value="4" />
+                                        <Picker.Item label="BrokeBoys" value="5" />
+                                    </Picker>
+                                </View>
+                                
+                                <Text style={styles.fieldLabel}>Rating</Text>
+                                <View style={styles.pickerContainer}>
+                                    <Picker
+                                        style={styles.picker}
+                                        selectedValue={this.state.rating}
+                                        prompt="Rating"
+                                        onValueChange={(inItemValue) => this.setState({ rating: inItemValue })}
+                                    >
+                                        <Picker.Item label="" value="" />
+                                        <Picker.Item label="1" value="1" />
+                                        <Picker.Item label="2" value="2" />
+                                        <Picker.Item label="3" value="3" />
+                                        <Picker.Item label="4" value="4" />
+                                        <Picker.Item label="5" value="5" />
+                                    </Picker>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+
+                <View style={styles.addScreenButtonsContainer}>
+                    <Button mode="outlined" onPress={() => this.props.navigation.navigate('People')} style={styles.button}>
+                        Cancel
+                    </Button>
+                    <Button mode="contained" onPress={this.handleSave} style={styles.button}>
+                        Save
+                    </Button>
+                </View>
+            </View>
+        );
     }
-  };
+}
 
-  const handlePeople = async () => {
-    Keyboard.dismiss();
-    if (add_people.trim()) {
-      const newPeopleList = [...peopleAdd, add_people.trim()];
-      setPeopleAdd(newPeopleList);
-      await AsyncStorage.setItem('peopleList', JSON.stringify(newPeopleList)); // Save to AsyncStorage
-      fetchPeople(add_people.trim());
-      setAddPeople(''); // Clear input
-    }
-  };
-
-  const completeAdd = async (index) => {
-    const newPeopleList = [...peopleAdd];
-    newPeopleList.splice(index, 1);
-    setPeopleAdd(newPeopleList);
-    await AsyncStorage.setItem('peopleList', JSON.stringify(newPeopleList)); // Update AsyncStorage
-  };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.greetingsContainer}>
-        <Text style={styles.greetings}>Let's Add Some People</Text>
-
-        <View style={styles.addingPeople}>
-          {peopleAdd.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => completeAdd(index)}>
-              <AddPeople text={item} />
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.keyboardView}
-        >
-          <View style={styles.takeNameButton}>
-            <TextInput
-              style={styles.takeName}
-              placeholder="Enter a Name"
-              value={add_people}
-              onChangeText={text => setAddPeople(text)}
-            />
-            <TouchableOpacity onPress={handlePeople}>
-              <View style={styles.addWrapper}>
-                <Text style={styles.addText}>Add</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
-    </View>
-  );
-};
-export default People_add
+export default People_add;
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:'pink'
-  },
-  greetings:{
-    fontSize:24,
-    fontWeight:'bold',
-  },
-  greetingsContainer:{
-    justifyContent:'center',
-    alignItems:"center",
-    marginTop:20,
-  },
-  addingPeople:{
-    marginTop:30,
-  },
-  takeNameButton:{
-    bottom: 20, 
-    flexDirection: 'row', 
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  takeName:{
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 60,
-    borderColor: '#c0c0c0',
-    borderWidth: 1,
-    width: '80%',
-  },
-  keyboardView:{
-    marginTop:10,
-  },
-  addWrapper:{
-    width:60,
-    height:60,
-    borderRadius:60,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:"#E8EAED",
-    borderWidth:1,
+    container: {
+        flex: 1,
+        backgroundColor: '#f5f5f5',
     },
-    home_restaurants:{
-    position: 'absolute',
-    bottom: 25, 
-    left: 20,   
-    right: 20,
-    flexDirection: 'row',  
-    justifyContent: 'space-between',  
-    marginBottom:25,
+    addScreenContainer: {
+        flex: 1,
+        padding: 16,
     },
-    home:{
-      height:50,
-      borderWidth:1
-    }
-  });
+    addScreenInnerContainer: {
+        flex: 1,
+    },
+    addScreenFormContainer: {
+        marginBottom: 20,
+    },
+    fieldLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginVertical: 8,
+    },
+    pickerContainer: {
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: '#ddd',
+        marginBottom: 16,
+    },
+    picker: {
+        width: '100%',
+        height: 40,
+    },
+    addScreenButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        padding: 16,
+        backgroundColor: '#f5f5f5',
+    },
+    textInput: {
+        marginBottom: 16,
+    },
+    button: {
+        flex: 1,
+        marginHorizontal: 8,
+    },
+});
