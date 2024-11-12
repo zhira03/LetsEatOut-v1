@@ -7,9 +7,9 @@ const PeopleDetails = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
-      <Text>Best Meal: {favMeal}</Text>
+      <Text>Favorite Meal: {favMeal}</Text>
       <Text>Nick-Name: {nickName}</Text>
-      <Text>Rating: {rating}</Text>
+      <Text>Rating: {rating} </Text>
     </View>
   );
 };

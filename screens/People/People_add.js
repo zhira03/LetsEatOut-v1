@@ -46,7 +46,7 @@ class People_add extends React.Component {
                             />
 
                             <View style={styles.largePickerDiv}>
-                                <Text style={styles.fieldLabel}>Best Meal</Text>
+                                <Text style={styles.fieldLabel}>Favorite Meal</Text>
                                 <View style={styles.pickerContainer}>
                                     <Picker
                                         style={styles.picker}
@@ -61,7 +61,7 @@ class People_add extends React.Component {
                                     </Picker>
                                 </View>
 
-                                <Text style={styles.fieldLabel}>Price</Text>
+                                <Text style={styles.fieldLabel}>Nick-Name</Text>
                                 <View style={styles.pickerContainer}>
                                     <Picker
                                         style={styles.picker}
@@ -87,11 +87,11 @@ class People_add extends React.Component {
                                         onValueChange={(inItemValue) => this.setState({ rating: inItemValue })}
                                     >
                                         <Picker.Item label="" value="" />
-                                        <Picker.Item label="1" value="1" />
-                                        <Picker.Item label="2" value="2" />
-                                        <Picker.Item label="3" value="3" />
-                                        <Picker.Item label="4" value="4" />
-                                        <Picker.Item label="5" value="5" />
+                                        <Picker.Item label="*" value="*" />
+                                        <Picker.Item label="**" value="**" />
+                                        <Picker.Item label="***" value="***" />
+                                        <Picker.Item label="****" value="****" />
+                                        <Picker.Item label="*****" value="*****" />
                                     </Picker>
                                 </View>
                             </View>
