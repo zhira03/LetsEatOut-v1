@@ -2,13 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image,Button,TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home  from './screens/Home';
+import Home  from './Home';
 import Restaurants from './screens/Restaurant/Restaurant';
 import People from './screens/People/People';
 import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 import People_add from './screens/People/People_add';
 import RestaurantDetails from './screens/Restaurant/RestaurantDetails';
 import PeopleDetails from './screens/People/PeopleDetails';
+import Decisions from './screens/Decisions/Decisions';
 
 
 export default function App({navigation}) {
@@ -33,7 +34,7 @@ export default function App({navigation}) {
         },
       }}
       >
-        <Stack.Screen name="Home" component={Home} options={({ navigation }) => ({  
+        <Stack.Screen name="Home" component={Decisions} options={({ navigation }) => ({  
             headerTitle: (props) => <HomeImage {...props} />,
             headerRight: () => (
               <TouchableOpacity>

@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import rating from '/Users/HomePC/Desktop/react/Silly2/Foods/LetsEatOut/componets/rating'
 
 class People_add extends React.Component {
     constructor(inProps) {
@@ -91,7 +92,7 @@ class People_add extends React.Component {
                                         <Picker.Item label="**" value="**" />
                                         <Picker.Item label="***" value="***" />
                                         <Picker.Item label="****" value="****" />
-                                        <Picker.Item label="*****" value="*****" />
+                                        <Picker.Item label="*****" value={rating} />
                                     </Picker>
                                 </View>
                             </View>
