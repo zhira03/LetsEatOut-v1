@@ -1,11 +1,8 @@
 import React from "react";
-import { Alert,BackHandler, Button, FlatList, Image,Modal, 
-Picker, ssPlatform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert,StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let users = null
-let filteredRestaurants = null
-let chosenRestaurant = {}
+
 
 const getRandom = (inMin, inMax) => {
     inMin = Math.ceil(inMin)
@@ -14,6 +11,10 @@ const getRandom = (inMin, inMax) => {
 }
 
 export default function Home ({navigation}) {
+    let users = null
+    let filteredRestaurants = null
+    let chosenRestaurant = {}
+
     return(
         <View style={styles.decisionTimeContainer}>
             <TouchableOpacity  style={styles.decisionTimeTouchableContainer}
@@ -22,11 +23,14 @@ export default function Home ({navigation}) {
                 let inPeople = await AsyncStorage.getItem('people')
                 inPeople = JSON.parse(inPeople)
 
-                if(inPeople,length === 0){
-                  Alert.alert(
-                    "There nothing here bro. Try adding something first",
-                    [{text:"OK"}],{cancelable:false})
-                    return;
+                if (inPeople.length === 0) {
+                      Alert.alert(
+                        "There’s nothing here, bro.",
+                        "Try adding some people first.",
+                        [{ text: "OK" }],
+                        { cancelable: false }
+                      );
+                      return;
                 }
                 
                 let inRestaurants = await AsyncStorage.getItem('restaurants')
@@ -35,18 +39,19 @@ export default function Home ({navigation}) {
                 if(inRestaurants.length === 0){
                   Alert.alert(
                     "Theres nothing here. Try adding something",
-                    [{text:"OK"}],{cancelable:false})
+                    [{text:"OK"}],
+                    {cancelable:false}
+                    );
                     return;
                 }
 
-                navigation.navigate("WhosGoing")
+                    navigation.navigate("WhosGoing")
 
               }catch(error){
                 console.log(error)
               }
             }}
             >
-               
                 <Text style={{'paddingTop':20}}>
                     Click to get Started
                 </Text>

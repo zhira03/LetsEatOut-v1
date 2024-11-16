@@ -10,6 +10,7 @@ import People_add from './screens/People/People_add';
 import RestaurantDetails from './screens/Restaurant/RestaurantDetails';
 import PeopleDetails from './screens/People/PeopleDetails';
 import Decisions from './screens/Decisions/Decisions';
+import WhosGoing from './screens/Decisions/WhosGoing';
 
 
 export default function App({navigation}) {
@@ -58,6 +59,7 @@ export default function App({navigation}) {
         <Stack.Screen  name="Add-Restaurant" component={AddRestaurant} />
         <Stack.Screen  name="RestaurantDetails" component={RestaurantDetails} />
         <Stack.Screen  name="PeopleDetails" component={PeopleDetails} />
+        <Stack.Screen  name="WhosGoing" component={WhosGoing} />
       </Stack.Navigator>
     </NavigationContainer>
   );
