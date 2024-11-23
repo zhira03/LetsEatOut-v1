@@ -9,7 +9,6 @@ import AddRestaurant from './screens/Restaurant/Add-Restaurant';
 import People_add from './screens/People/People_add';
 import RestaurantDetails from './screens/Restaurant/RestaurantDetails';
 import PeopleDetails from './screens/People/PeopleDetails';
-import Decisions from './screens/Decisions/Decisions';
 import WhosGoing from './screens/Decisions/WhosGoing';
 
 
@@ -35,7 +34,7 @@ export default function App({navigation}) {
         },
       }}
       >
-        <Stack.Screen name="Home" component={Decisions} options={({ navigation }) => ({  
+        <Stack.Screen name="Home" component={Home} options={({ navigation }) => ({  
             headerTitle: (props) => <HomeImage {...props} />,
             headerRight: () => (
               <TouchableOpacity>
