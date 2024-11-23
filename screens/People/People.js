@@ -36,14 +36,14 @@ class People extends React.Component {
           text: "Yes",
           onPress: async () => {
             try {
-              let inPeople = await AsyncStorage.getItem("restaurants");
+              let inPeople = await AsyncStorage.getItem("people");
               inPeople = inPeople ? JSON.parse(inPeople) : [];
 
               const updatedPeople = inPeople.filter(
                 (people) => people.key !== item.key
               );
 
-              await AsyncStorage.setItem("restaurants", JSON.stringify(updatedPeople));
+              await AsyncStorage.setItem("people", JSON.stringify(updatedPeople));
               this.setState({ listData: updatedPeople });
 
               Toast.show({
@@ -54,7 +54,7 @@ class People extends React.Component {
                 visibilityTime: 2000,
               });
             } catch (error) {
-              console.error("Error deleting restaurant:", error);
+              console.error("Error deleting person:", error);
             }
           },
         },

@@ -30,6 +30,10 @@ class People_add extends React.Component {
         });
     };
 
+    handleInput = (type, value) =>{
+        this.setState({ [type]:value})
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -49,34 +53,25 @@ class People_add extends React.Component {
                             <View style={styles.largePickerDiv}>
                                 <Text style={styles.fieldLabel}>Favorite Meal</Text>
                                 <View style={styles.pickerContainer}>
-                                    <Picker
-                                        style={styles.picker}
-                                        prompt="Fav Meal"
-                                        selectedValue={this.state.favMeal}
-                                        onValueChange={(inItemValue) => this.setState({ favMeal: inItemValue })}
-                                    >
-                                        <Picker.Item label="" value="" />
-                                        <Picker.Item label="Zim" value="Zim" />
-                                        <Picker.Item label="South Africa" value="SA" />
-                                        <Picker.Item label="Other" value="Other" />
-                                    </Picker>
+                                    <TextInput 
+                                        style = {styles.textinput}
+                                        placeholder="Enter a Favorite meal"
+                                        value={this.state.favMeal}
+                                        onChangeText={(text) =>this.handleInput('favMeal',text)}
+                                    />
+                                    <Text style={styles.output}>
+                                        Meal: {this.state.favMeal}
+                                    </Text>
                                 </View>
 
                                 <Text style={styles.fieldLabel}>Nick-Name</Text>
                                 <View style={styles.pickerContainer}>
-                                    <Picker
-                                        style={styles.picker}
-                                        prompt="Nick-Name"
-                                        selectedValue={this.state.nickName}
-                                        onValueChange={(inItemValue) => this.setState({ nickName: inItemValue })}
-                                    >   
-                                        <Picker.Item label="" value="" />                                     
-                                        <Picker.Item label="Ass" value="1" />
-                                        <Picker.Item label="Butt" value="2" />
-                                        <Picker.Item label="Ugly" value="3" />
-                                        <Picker.Item label="CashLips" value="4" />
-                                        <Picker.Item label="BrokeBoys" value="5" />
-                                    </Picker>
+                                    <TextInput 
+                                        style = {styles.nickNameinput}
+                                        placeholder="Enter a Nick Name"
+                                        value={this.state.nickName}
+                                        onChangeText={(text) =>this.handleInput('nickName',text)}
+                                    />
                                 </View>
                                 
                                 <Text style={styles.fieldLabel}>Rating</Text>
