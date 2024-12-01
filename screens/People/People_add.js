@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import rating from '/Users/HomePC/Desktop/react/Silly2/Foods/LetsEatOut/componets/rating'
+import rating from '/Users/HomePC/Desktop/react/Silly2/Foods/LetsEatOut/components/rating'
 
 class People_add extends React.Component {
     constructor(inProps) {
@@ -59,9 +59,6 @@ class People_add extends React.Component {
                                         value={this.state.favMeal}
                                         onChangeText={(text) =>this.handleInput('favMeal',text)}
                                     />
-                                    <Text style={styles.output}>
-                                        Meal: {this.state.favMeal}
-                                    </Text>
                                 </View>
 
                                 <Text style={styles.fieldLabel}>Nick-Name</Text>
